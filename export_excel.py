@@ -2,11 +2,12 @@ from datetime import datetime, date
 from dateutil.relativedelta import relativedelta
 from RPA.JSON import JSON
 from RPA.Excel.Files import Files
+import os
 
 class ExportExcel:
 
     def __init__(self):
-        json_file = JSON().load_json_from_file("resources\config.json")
+        json_file = JSON().load_json_from_file(os.path.join(os.getcwd(),"resources","config.json"))
         self.number_months = json_file["number_months"]
         self.number_months = int(self.number_months)
         self.df_output = {}

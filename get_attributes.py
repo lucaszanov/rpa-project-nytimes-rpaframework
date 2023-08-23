@@ -2,12 +2,13 @@ from datetime import datetime, date
 import re
 from dateutil.relativedelta import relativedelta
 from RPA.JSON import JSON
+import os
 
 class GetAttributes:
 
     def __init__(self, driver):
         self.driver = driver
-        json_file = JSON().load_json_from_file("resources\config.json")
+        json_file = JSON().load_json_from_file(os.path.join(os.getcwd(),"resources","config.json"))
         self.regex_money_bool = json_file["regex_money_bool"]
         self.search_phrase = json_file["search_phrase"]
         self.news_sections = json_file["news_sections"]
@@ -44,7 +45,7 @@ class GetAttributes:
     def get_last_date_available(self):
         flag_elements_cards = False
         search_result_elements = []
-        while not flag_elements_cards and len(search_result_elements)==0:
+        while not flag_elements_cards and len(search_result_elements) == 0:
             try:
                 search_result_elements = self.driver.find_elements(f"xpath://ol"
                           f"[@{self.default_search_attribute}='{self.xpath_cards}']/li")
@@ -83,6 +84,9 @@ class GetAttributes:
     def preparing_cards_to_extract(self):
         date_criteria = self.get_month_date_criteria()
         last_date_available = self.get_last_date_available()
+        while type(last_date_available) == type(None):
+            last_date_available = self.get_last_date_available()
+
         while date_criteria <= last_date_available:
             click_show_more_results_ = self.click_show_more_results()
             if click_show_more_results_[0] == "error":

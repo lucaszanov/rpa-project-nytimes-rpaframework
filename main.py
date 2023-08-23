@@ -8,7 +8,7 @@ from export_excel import ExportExcel
 class Main:
 
     def __init__(self):
-        json_file = JSON().load_json_from_file("resources\config.json")
+        json_file = JSON().load_json_from_file(os.path.join(os.getcwd(),"resources","config.json"))
         self.default_search_attribute = json_file["default_search_attribute"]
         self.xpath_close_cookies_button = json_file["xpath_close_cookies_button"]
         self.url_website = json_file["url_website"]
@@ -126,9 +126,11 @@ class Main:
              f'{date_criteria.year}-{date_criteria.month}-{date_criteria.day}':
                 print(f'Collected data: {data}')
                 print(f'Downloading pic: {data["pic_file_name"]}')
-                self.download_pics(data["pic_url"],f'output\{data["pic_file_name"]}')
+                self.download_pics(data["pic_url"],os.path.join(
+                    os.getcwd(),'output',f'{data["pic_file_name"]}'))
         print(f'Exporting results to Excel file: output.xlsx')
-        ExportExcel().export_excel_file(list_data, "output\output.xlsx")
+        ExportExcel().export_excel_file(list_data, os.path.join(
+            os.getcwd(),"output","output.xlsx"))
         print(f'\n============================= Execution Finalized =============================\n')
 
 if __name__ == "__main__":
