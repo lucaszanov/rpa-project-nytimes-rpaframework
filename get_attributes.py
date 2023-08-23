@@ -50,8 +50,8 @@ class GetAttributes:
                 search_result_elements = self.driver.find_elements(f"xpath://ol"
                           f"[@{self.default_search_attribute}='{self.xpath_cards}']/li")
                 flag_elements_cards = True
-            except:
-                pass
+            except Exception as error:
+                print(f'Error getting last date available: {error}')
         date_ = ""
         for index in range(len(search_result_elements)-1, -1, -1):
             if date_ == "":
@@ -77,9 +77,9 @@ class GetAttributes:
                                 date_ = date(year, month, day)
                         return date_
                     except Exception as error:
-                        print(f'Error: {error}')
+                        print(f'Error getting last date available: {error}')
                 except Exception as error:
-                    print(f'Error: {error}')
+                    print(f'Error getting last date available: {error}')
 
     def preparing_cards_to_extract(self):
         date_criteria = self.get_month_date_criteria()
@@ -115,8 +115,8 @@ class GetAttributes:
                         data["month"] = self.dict_month[data_split[0]]
                         data["year"] = int(data_split[2])
                         data["datetime"] = date(data["year"], data["month"], data["day"])
-            except:
-                pass
+            except Exception as error:
+                print(f'Error getting dates: {error}')
 
     def click_show_more_results(self):
         print('Click in show more results')
@@ -170,8 +170,8 @@ class GetAttributes:
                 data["count_search_phrase"] = \
                     len(re.findall(fr"\b{self.search_phrase.lower()}\b", data["description"].lower())) + \
                     len(re.findall(fr"\b{self.search_phrase.lower()}\b", data["title"].lower()))
-            except:
-                pass
+            except Exception as error:
+                print(f'Error getting search phrase counting: {error}')
 
     def get_money_bool(self):
         '''
@@ -185,8 +185,8 @@ class GetAttributes:
                 if len(re.findall(fr"{self.regex_money_bool}", data["description"]))+ \
                         len(re.findall(fr"{self.regex_money_bool}", data["title"])) > 0:
                     data["money_bool"]=True
-            except:
-                pass
+            except Exception as error:
+                print(f'Error getting money occurences (bool): {error}')
 
     def main(self):
         self.preparing_cards_to_extract()

@@ -19,6 +19,7 @@ class Main:
         self.number_months = json_file["number_months"]
 
     def clear_output_folder(self):
+        print(f'Cleaning output folder')
         if not os.path.exists(os.path.join(os.getcwd(),"output")):
             os.mkdir(os.path.join(os.getcwd(),"output"))
 
@@ -74,9 +75,15 @@ class Main:
 
     def download_pics(self, url, filename):
         if '.jpg' in filename.lower():
-            HTTP().download(url=url, target_file=filename, overwrite=True)
+            try:
+                HTTP().download(url=url, target_file=filename, overwrite=True)
+            except Exception as error:
+                print(f'Not possible to download pic {filename} from url {url}. Msg: {error}')
         else:
-            HTTP().download(url=url, target_file=filename+".jpg", overwrite=True)
+            try:
+                HTTP().download(url=url, target_file=filename+".jpg", overwrite=True)
+            except Exception as error:
+                print(f'Not possible to download pic {filename} from url {url}. Msg: {error}')
 
     def filter_sections(self):
         print(f'Filtering sections: {self.news_sections}')
@@ -87,10 +94,17 @@ class Main:
                      f"[@{self.default_search_attribute}='{self.xpath_sections_button}']")
                 sections_button[0].click()
                 flag_filter_sections_button = True
-            except:
-                pass
-        search_result_elements = self.driver.find_elements(f"xpath://ul"
-                   f"[@{self.default_search_attribute}='{self.xpath_sections_boxes}']/li")
+            except Exception as error:
+                msg = f'Error filtering sections: {error}'
+                print(msg)
+                return ["error", msg]
+        try:
+            search_result_elements = self.driver.find_elements(f"xpath://ul"
+                       f"[@{self.default_search_attribute}='{self.xpath_sections_boxes}']/li")
+        except Exception as error:
+            msg = f'Error filtering sections: {error}'
+            print(msg)
+            return ["error", msg]
         if search_result_elements==[]:
             return ["error", f"No sections available. No results"]
         for element in search_result_elements:
