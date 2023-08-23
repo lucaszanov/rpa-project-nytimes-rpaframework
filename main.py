@@ -8,7 +8,7 @@ from export_excel import ExportExcel
 class Main:
 
     def __init__(self):
-        json_file = JSON().load_json_from_file(os.path.join(os.getcwd(),"resources","config.json"))
+        json_file = JSON().load_json_from_file(os.path.join(os.getcwd(), "resources", "config.json"))
         self.default_search_attribute = json_file["default_search_attribute"]
         self.xpath_close_cookies_button = json_file["xpath_close_cookies_button"]
         self.url_website = json_file["url_website"]
@@ -19,18 +19,25 @@ class Main:
         self.number_months = json_file["number_months"]
 
     def clear_output_folder(self):
-        for file in os.listdir("output"):
-            os.remove(os.path.join("output",file))
+        if not os.path.exists(os.path.join(os.getcwd(),"output")):
+            os.mkdir(os.path.join(os.getcwd(),"output"))
+
+        for file in os.listdir(os.path.join(os.getcwd(),"output")):
+            os.remove(os.path.join(os.getcwd(),"output",file))
 
     def validate_inputs(self):
+        print(f'Validating number_months')
         try:
             self.number_months = int(self.number_months)
+            print(f'Valid number_months: {str(self.number_months)}')
         except Exception as error:
+            print(f'Invalid number_months: {error}')
             return ["error", f"Error validating number_months. Msg: {error}"]
         try:
             self.news_sections = self.news_sections.replace("[", "").replace("]", "").replace(
                 " ", "")
             self.news_sections = self.news_sections.split(",")
+            print(f'Valid news_section: {str(self.news_sections)}')
         except Exception as error:
             print(f"Error validating news_section. Msg: {error}")
             return ["error", f"Error validating news_section. Msg: {error}"]
