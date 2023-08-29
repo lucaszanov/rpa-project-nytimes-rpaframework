@@ -51,6 +51,14 @@ Using <code>from RPA.Robocorp.WorkItems import WorkItems</code>:
     <li>number of months for which you need to receive news: must be an integer</li>
 </ul>
 
+Example of input:
+
+{\
+  "search_phrase": "Python", \
+  "news_sections": "[Books,Fashion,Movies,Opinion,U.S.]",\
+  "number_months": 4\
+}
+
 
 # Future improvements
 - Generate an .exe file to be more user-friendly with a Tkinter Interface;
