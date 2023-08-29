@@ -21,12 +21,11 @@ class GetAttributes:
             "regex_money_bool": "\\$\\d+\\,?\\d*\\.?\\d*|\\d+\\s?dollars|\\d+\\s?USD"
         }
 
-        wi = WorkItems()
-        wi.get_input_work_item()
-        variables = wi.get_work_item_variables()
-        self.search_phrase = variables[0]["payload"]["search_phrase"]
-        self.news_sections = variables[0]["payload"]["news_sections"]
-        self.number_months = variables[0]["payload"]["number_months"]
+        workitems = WorkItems()
+        for item in workitems.inputs:
+            self.search_phrase = item.payload["search_phrase"]
+            self.news_sections = item.payload["news_sections"]
+            self.number_months = item.payload["number_months"]
 
         self.driver = driver
         self.regex_money_bool = config_dict["regex_money_bool"]
