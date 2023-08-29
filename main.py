@@ -24,6 +24,7 @@ class Main:
         }
 
         workitems = WorkItems()
+        print(workitems.inputs,type(workitems.inputs))
         for item in workitems.inputs:
             self.search_phrase = item.payload["search_phrase"]
             self.news_sections = item.payload["news_sections"]
