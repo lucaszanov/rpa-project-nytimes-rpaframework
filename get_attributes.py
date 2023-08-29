@@ -1,23 +1,39 @@
+from RPA.Robocorp.WorkItems import WorkItems
 from datetime import datetime, date
 import re
 from dateutil.relativedelta import relativedelta
-from RPA.JSON import JSON
 import os
 
 class GetAttributes:
 
     def __init__(self, driver):
+        config_dict = {
+            "url_website": "https://www.nytimes.com/search?query=$TERM&sort=newest",
+            "default_search_attribute": "data-testid",
+            "xpath_close_cookies_button": "expanded-dock-btn-selector",
+            "innertext_accept_terms_button": "continue",
+            "xpath_cards": "search-results",
+            "xpath_show_more_button": "search-show-more-button",
+            "xpath_cards_date": "todays-date",
+            "xpath_sections_button": "search-multiselect-button",
+            "xpath_sections_boxes": "multi-select-dropdown-list",
+            "xpath_date": "todays-date",
+            "regex_money_bool": "\\$\\d+\\,?\\d*\\.?\\d*|\\d+\\s?dollars|\\d+\\s?USD"
+        }
+
+        wi = WorkItems()
+        wi.get_input_work_item()
+        self.search_phrase = wi.get_work_item_variable("search_phrase")
+        self.news_sections = wi.get_work_item_variable("news_sections")
+        self.number_months = wi.get_work_item_variable("number_months")
+
         self.driver = driver
-        json_file = JSON().load_json_from_file(os.path.join(os.getcwd(),"resources","config.json"))
-        self.regex_money_bool = json_file["regex_money_bool"]
-        self.search_phrase = json_file["search_phrase"]
-        self.news_sections = json_file["news_sections"]
-        self.number_months = json_file["number_months"]
+        self.regex_money_bool = config_dict["regex_money_bool"]
         self.number_months = int(self.number_months)
-        self.default_search_attribute = json_file["default_search_attribute"]
-        self.xpath_cards = json_file["xpath_cards"]
-        self.xpath_show_more_button = json_file["xpath_show_more_button"]
-        self.xpath_date = json_file["xpath_date"]
+        self.default_search_attribute = config_dict["default_search_attribute"]
+        self.xpath_cards = config_dict["xpath_cards"]
+        self.xpath_show_more_button = config_dict["xpath_show_more_button"]
+        self.xpath_date = config_dict["xpath_date"]
 
         self.list_data = []
         self.dict_month = {

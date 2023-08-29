@@ -1,6 +1,6 @@
 from RPA.Browser.Selenium import Selenium
-from RPA.JSON import JSON
 from RPA.HTTP import HTTP
+from RPA.Robocorp.WorkItems import WorkItems
 import os
 from get_attributes import GetAttributes
 from export_excel import ExportExcel
@@ -8,15 +8,32 @@ from export_excel import ExportExcel
 class Main:
 
     def __init__(self):
-        json_file = JSON().load_json_from_file(os.path.join(os.getcwd(), "resources", "config.json"))
-        self.default_search_attribute = json_file["default_search_attribute"]
-        self.xpath_close_cookies_button = json_file["xpath_close_cookies_button"]
-        self.url_website = json_file["url_website"]
-        self.xpath_sections_button = json_file["xpath_sections_button"]
-        self.xpath_sections_boxes = json_file["xpath_sections_boxes"]
-        self.search_phrase = json_file["search_phrase"]
-        self.news_sections = json_file["news_sections"]
-        self.number_months = json_file["number_months"]
+
+        config_dict = {
+          "url_website" : "https://www.nytimes.com/search?query=$TERM&sort=newest",
+          "default_search_attribute" : "data-testid",
+          "xpath_close_cookies_button" : "expanded-dock-btn-selector",
+          "innertext_accept_terms_button" : "continue",
+          "xpath_cards" : "search-results",
+          "xpath_show_more_button" : "search-show-more-button",
+          "xpath_cards_date" : "todays-date",
+          "xpath_sections_button" : "search-multiselect-button",
+          "xpath_sections_boxes" : "multi-select-dropdown-list",
+          "xpath_date" : "todays-date",
+          "regex_money_bool" :  "\\$\\d+\\,?\\d*\\.?\\d*|\\d+\\s?dollars|\\d+\\s?USD"
+        }
+
+        wi = WorkItems()
+        wi.get_input_work_item()
+        self.search_phrase = wi.get_work_item_variable("search_phrase")
+        self.news_sections = wi.get_work_item_variable("news_sections")
+        self.number_months = wi.get_work_item_variable("number_months")
+
+        self.default_search_attribute = config_dict["default_search_attribute"]
+        self.xpath_close_cookies_button = config_dict["xpath_close_cookies_button"]
+        self.url_website = config_dict["url_website"]
+        self.xpath_sections_button = config_dict["xpath_sections_button"]
+        self.xpath_sections_boxes = config_dict["xpath_sections_boxes"]
 
     def clear_output_folder(self):
         print(f'Cleaning output folder')

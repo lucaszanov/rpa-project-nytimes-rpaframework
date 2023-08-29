@@ -1,14 +1,29 @@
 from datetime import datetime, date
 from dateutil.relativedelta import relativedelta
-from RPA.JSON import JSON
+from RPA.Robocorp.WorkItems import WorkItems
 from RPA.Excel.Files import Files
 import os
 
 class ExportExcel:
 
     def __init__(self):
-        json_file = JSON().load_json_from_file(os.path.join(os.getcwd(),"resources","config.json"))
-        self.number_months = json_file["number_months"]
+        config_dict = {
+            "url_website": "https://www.nytimes.com/search?query=$TERM&sort=newest",
+            "default_search_attribute": "data-testid",
+            "xpath_close_cookies_button": "expanded-dock-btn-selector",
+            "innertext_accept_terms_button": "continue",
+            "xpath_cards": "search-results",
+            "xpath_show_more_button": "search-show-more-button",
+            "xpath_cards_date": "todays-date",
+            "xpath_sections_button": "search-multiselect-button",
+            "xpath_sections_boxes": "multi-select-dropdown-list",
+            "xpath_date": "todays-date",
+            "regex_money_bool": "\\$\\d+\\,?\\d*\\.?\\d*|\\d+\\s?dollars|\\d+\\s?USD"
+        }
+
+        wi = WorkItems()
+        wi.get_input_work_item()
+        self.number_months = wi.get_work_item_variable("number_months")
         self.number_months = int(self.number_months)
         self.df_output = {}
 
