@@ -42,21 +42,15 @@ Main libraries used in this project (also available in <code>requirements.txt</c
 
 Python version: 3.11
 
-# Configuration file
-The <code>config.json</code> file is located in the <code>resources</code> folder
-and contains all the configuration parameters:
+# WorkItems - Inputs
+Using <code>from RPA.Robocorp.WorkItems import WorkItems</code>:
 
 <ul>
-<li>website_parameters: URLs, xpaths, ids and parameters related to the 
-website <url>http://www.nytimes.com</url>;</li>
-<li>input_parameters: the configured variables by user:
-    <ul>
-        <li>search phrase: must be separated by space;</li>
-        <li>news category or section: must be a list, eg: [Books,Fashion,Movies,Opinion,U.S.];</li>
-        <li>number of months for which you need to receive news: must be an integer</li>
-    </ul></li>
-<li>general_parameters: regex structures</li>
+    <li>search phrase: must be separated by space;</li>
+    <li>news category or section: must be a list, eg: [Books,Fashion,Movies,Opinion,U.S.];</li>
+    <li>number of months for which you need to receive news: must be an integer</li>
 </ul>
+
 
 # Future improvements
 - Generate an .exe file to be more user-friendly with a Tkinter Interface;
