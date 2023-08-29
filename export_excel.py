@@ -22,8 +22,10 @@ class ExportExcel:
         }
 
         workitems = WorkItems()
-        for item in workitems.inputs:
-            self.number_months = item.payload["number_months"]
+        workitems.get_input_work_item()
+        variables = workitems.get_work_item_variables()
+
+        self.number_months = variables["number_months"]
 
         self.number_months = int(self.number_months)
         self.df_output = {}

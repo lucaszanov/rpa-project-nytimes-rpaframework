@@ -24,15 +24,12 @@ class Main:
         }
 
         workitems = WorkItems()
-        print(workitems.inputs, type(workitems.inputs))
         workitems.get_input_work_item()
         variables = workitems.get_work_item_variables()
-        print(variables, type(variables))
 
-        for item in workitems.inputs:
-            self.search_phrase = item.payload["search_phrase"]
-            self.news_sections = item.payload["news_sections"]
-            self.number_months = item.payload["number_months"]
+        self.search_phrase = variables["search_phrase"]
+        self.news_sections = variables["news_sections"]
+        self.number_months = variables["number_months"]
 
         self.default_search_attribute = config_dict["default_search_attribute"]
         self.xpath_close_cookies_button = config_dict["xpath_close_cookies_button"]
