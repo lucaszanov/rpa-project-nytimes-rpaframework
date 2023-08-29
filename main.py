@@ -25,9 +25,9 @@ class Main:
 
         wi = WorkItems()
         wi.get_input_work_item()
-        self.search_phrase = wi.get_work_item_variable("search_phrase")
-        self.news_sections = wi.get_work_item_variable("news_sections")
-        self.number_months = wi.get_work_item_variable("number_months")
+        self.search_phrase = wi.get_work_item_variables("search_phrase")
+        self.news_sections = wi.get_work_item_variables("news_sections")
+        self.number_months = wi.get_work_item_variables("number_months")
 
         self.default_search_attribute = config_dict["default_search_attribute"]
         self.xpath_close_cookies_button = config_dict["xpath_close_cookies_button"]

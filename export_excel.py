@@ -23,7 +23,7 @@ class ExportExcel:
 
         wi = WorkItems()
         wi.get_input_work_item()
-        self.number_months = wi.get_work_item_variable("number_months")
+        self.number_months = wi.get_work_item_variables("number_months")
         self.number_months = int(self.number_months)
         self.df_output = {}
 
